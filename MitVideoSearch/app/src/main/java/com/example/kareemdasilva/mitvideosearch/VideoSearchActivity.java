@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.TextView;
-
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import java.util.List;
 
 
@@ -32,6 +33,7 @@ public class VideoSearchActivity extends ActionBarActivity {
     //Setup video player by creating controls/video source
     public void videoSetup() {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
+
         //Loads video to the video player
         if (control == null) {
 
@@ -69,7 +71,7 @@ public class VideoSearchActivity extends ActionBarActivity {
     public void setupTimeStamps(){
         timeStamps = (ListView) findViewById(R.id.timeMarks);
         String[] values = new String[] { "400", "12000", "40",
-                "666666666", "10000", "Ubuntu", "80000", "34000",
+                "66666", "10000", "12000", "80000", "34000",
                  };
 
         ArrayList<String> list = new ArrayList<String>();
@@ -109,6 +111,8 @@ public class VideoSearchActivity extends ActionBarActivity {
         videoPlay(5000);
 
     }
+
+
 
 
     @Override

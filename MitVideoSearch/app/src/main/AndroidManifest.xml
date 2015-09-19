@@ -10,15 +10,20 @@
         <activity
             android:name=".VideoSearchActivity"
             android:label="@string/app_name" >
+
+        </activity>
+        <activity
+            android:name=".VideoStreamerActivity"
+            android:label="@string/title_activity_video_streamer" >
+        </activity>
+        <activity
+            android:name=".UploadActivity"
+            android:label="@string/title_activity_upload" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".VideoStreamerActivity"
-            android:label="@string/title_activity_video_streamer" >
         </activity>
     </application>
 
