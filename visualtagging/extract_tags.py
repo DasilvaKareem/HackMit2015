@@ -1,100 +1,127 @@
 import cv2
 import os
+import json
+import pprint
+import ipdb
 import numpy as np
+import pickle
+from skvideo.io import VideoWriter
+from clarifai.client import ClarifaiApi
 
-def extract_tags():
-    """
-        vacation.mp4 (https://www.youtube.com/watch?v=jbWQG5I0iGI)
-            - videosegments
-                - 
 
-    """
+class Video_Tag_Extract():
+    def __init__(self, video_name='vacation.mp4'):
+        self.working_root   = '..'
+        self.videos_root    = '../training_videos'
+        self.images_root    = '../training_images'
+        self.json_root      = '../jsons'
+        self.video_name     = video_name
+        self.modulus        = 20
+        self.api            = ClarifaiApi()
+
+
+    def extract_images_from_video(self, video_start, video_end, job_id):
+        """
+            input 
+                self.video_name 
+            output 
+                json file
+        """
+        # set up
+        video_range = range(video_start, video_end)
+
+        cap = cv2.VideoCapture(os.path.join(self.videos_root, self.video_name))
+        num_frames = cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+        width, height = 640, 360
+
+        cur_frame = 0
+        while cur_frame < video_end:
+            print cur_frame
+            has_frame, frame = cap.read()  # frame is (height, width, channels)
+            if cur_frame in video_range:
+                cv2.imshow('frame', frame)
+
+                # write frame
+                if (cur_frame - video_start) % self.modulus == 0:
+                    img_filename = os.path.join(self.images_root, str(cur_frame) + 'job_id=' + str(job_id) + '.jpg')
+                    cv2.imwrite(img_filename, frame)
+
+                k = cv2.waitKey(30) & 0xff
+                if k == 27:
+                    break
+
+            cur_frame += 1
+
+        cv2.destroyAllWindows()
+        cap.release()
+
+
+    def analyze_images(self, job_id):
+        # analyze images in batch
+        image_list = [x for x in os.listdir(self.images_root) if 'job_id=' + str(job_id) + '.jpg' in x][:self.api.get_info()['max_batch_size']]
+        result = self.api.tag_images([open(os.path.join(self.images_root, x)) for x in image_list])['results']
+        info = {}
+        for idx in range(len(result)):
+            info[str(idx)] = result[idx]['result']['tag']
+
+        with open('data.json', 'w') as fp:
+            json.dump(info, fp)
+
+
+    def remove_images(self, video_start, video_end, job_id):
+        image_list = [x for x in os.listdir(self.images_root) if 'job_id=' + str(job_id) + '.jpg' in x]#[:self.api.get_info()['max_batch_size']]
+        for img_name in image_list:
+            os.system('rm ' + os.path.join(self.images_root, img_name))
+
+
+
+def write_video():
+    # Set up 
     working_root = '../'
     videos_root = os.path.join(working_root, 'training_videos')
-    video_file_name = 'vacation.mp4'
+    video_start = 0
+    video_end = 801
+    video_range = range(video_start, video_end)
+    ext = '.mp4'
+    input_video_name = 'vacation_0-801' + ext
+    output_video_name = input_video_name[:input_video_name.find(ext)] + '_' + str(video_start) + '-' + str(video_end) + '.mp4'
+    # print output_video_name
+    # assert False
 
-    cap = cv2.VideoCapture(os.path.join(videos_root, 'vacation.mp4'))
+    # set up reading video
+    cap = cv2.VideoCapture(os.path.join(videos_root, input_video_name))
     num_frames = cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
-
+    width, height = 640, 360
     cur_frame = 0
+
+    # set up writing video
+    writer = cv2.VideoWriter(os.path.join(videos_root, output_video_name),-1,1,(width,height))
+    # writer = VideoWriter(output_video_name, frameSize=(640, 360))  # can add fps=1 for 1 frame per second
+    # writer.open()
+
+    # main loop
     while cur_frame < num_frames:
-        print i 
+        print cur_frame
         has_frame, frame = cap.read()  # frame is (height, width, channels)
-        cv2.imshow('frame', frame)
-        k = cv2.waitKey(30) & 0xff
-        if k == 27:
-            break
+        if cur_frame in video_range:
+            cv2.imshow('frame', frame)
+            # print frame.shape
+            # assert False
+            writer.write(frame)
+            k = cv2.waitKey(30) & 0xff
+            if k == 27:
+                break
         cur_frame += 1
 
+    # clean up
     cv2.destroyAllWindows()
     cap.release()
+    writer.release()
 
 
-
-# import numpy as np
-# import cv2
-# import copy
-
-# cap = cv2.VideoCapture('v_ShavingBeard_g01_c02.avi')
-# num_frames = cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
-
-# # params for ShiTomasi corner detection
-# feature_params = dict( maxCorners = 100,
-#                        qualityLevel = 0.3,
-#                        minDistance = 7,
-#                        blockSize = 7 )
-
-# # Parameters for lucas kanade optical flow
-# lk_params = dict( winSize  = (15,15),
-#                   maxLevel = 2,
-#                   criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
-
-# # Create some random colors
-# color = np.random.randint(0,255,(100,3))
-# cur_frame = 0
-
-# # Take first frame and find corners in it
-# ret, old_frame = cap.read() #ret is a boolean that is true if there is a next rectangle, and old_frame is a numpy nd array
-# cur_frame += 1
-# old_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
-# p0 = cv2.goodFeaturesToTrack(old_gray, mask = None, **feature_params) #We'd have to replace this with our desired features
-# # p0 is a (numPoints, 1, 2) numpy ndarray, where 2 is because we are in 2d
-
-# # Create a mask image for drawing purposes
-# mask = np.zeros_like(old_frame)
-
-# while(cur_frame < num_frames):
-#     ret,clean_frame = cap.read()
-#     cur_frame += 1
-#     frame_gray = cv2.cvtColor(clean_frame, cv2.COLOR_BGR2GRAY)
-
-#     # calculate optical flow
-#     p1, st, err = cv2.calcOpticalFlowPyrLK(old_gray, frame_gray, p0, None, **lk_params)
-
-#     frame = copy.copy(clean_frame) #this should be a deep copy!
-
-#     # Select good points
-#     good_new = p1[st==1]
-#     good_old = p0[st==1]
-
-#     # draw the tracks
-#     for i,(new,old) in enumerate(zip(good_new,good_old)):
-#         a,b = new.ravel() #coordinates of the new point
-#         c,d = old.ravel() #coordinates of the old point
-#         cv2.line(mask, (a,b),(c,d), color[i].tolist(), 2)
-#         cv2.circle(frame,(a,b),5,color[i].tolist(),-1)
-
-#     img = cv2.add(frame,mask)
-#     # img = cv2.resize(img, (0,0), fx=1.0, fy=1.0); #// to fifth size or even smaller
-
-#     cv2.imshow('frame',img)
-#     k = cv2.waitKey(30) & 0xff
-#     if k == 27:
-#         break
-
-#     # Now update the previous frame and previous points
-#     old_gray = frame_gray.copy()
-#     p0 = good_new.reshape(-1,1,2)
-
-# cv2.destroyAllWindows()
-# cap.release()
+if __name__ == '__main__':
+    api = ClarifaiApi()
+    a = Video_Tag_Extract()
+    # a.extract_images_from_video(video_start=700, video_end=700+api.get_info()['max_batch_size'], job_id=1)
+    a.analyze_images(job_id=1)
+    # a.remove_images(video_start=700, video_end=700+self.api.get_info()['max_batch_size'], job_id=1)
