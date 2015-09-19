@@ -12,6 +12,10 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.widget.VideoView;
 import android.net.Uri;
 import android.media.*;
+import java.util.ArrayList;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,6 +26,7 @@ public class VideoSearchActivity extends ActionBarActivity {
     public ListView timeStamps;
     public MediaController control;
     private int position = 0;
+    public ArrayAdapter adapter;
 
 
     //Setup video player by creating controls/video source
@@ -46,25 +51,51 @@ public class VideoSearchActivity extends ActionBarActivity {
        videoPlayer.requestFocus();
 
         videoPlayer.setOnPreparedListener(new OnPreparedListener() {
-           public void onPrepared(MediaPlayer mediaPlayer) {
+            public void onPrepared(MediaPlayer mediaPlayer) {
 
                 videoPlayer.seekTo(position);
 
                 if (position == 0) {
-
-                    videoPlay();
-
+                    videoPlayer.start();
                 } else {
-
                     //if we come from a resumed activity, video playback will be paused
-
-                    videoPause();
+                    videoPlayer.pause();
                 }
             }
         });
+        setupTimeStamps();
     }
-    public void videoPlay(){
+
+    public void setupTimeStamps(){
+        timeStamps = (ListView) findViewById(R.id.timeMarks);
+        String[] values = new String[] { "400", "12000", "40",
+                "666666666", "10000", "Ubuntu", "80000", "34000",
+                 };
+
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < values.length; ++i) {
+            list.add(values[i]);
+        }
+         ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, list);
+        timeStamps.setAdapter(adapter);
+        timeStamps.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+
+                int timestamp = Integer.parseInt(((TextView) view).getText().toString());
+                            videoPlay(timestamp);
+
+            }
+
+        });
+    }
+
+    public void videoPlay(int timeStamp){
         videoPlayer.start();
+        videoPlayer.seekTo(timeStamp);
     }
     public void  videoPause(){
         videoPlayer.pause();
@@ -75,10 +106,9 @@ public class VideoSearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_search);
         videoSetup();
-        videoPlay();
+        videoPlay(5000);
 
     }
-
 
 
     @Override
