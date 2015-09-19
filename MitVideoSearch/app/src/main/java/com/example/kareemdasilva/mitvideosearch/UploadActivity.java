@@ -6,6 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 import android.view.View;
+import android.net.Uri;
+import java.util.ArrayList;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.TextView;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import java.util.List;
+import java.io.InputStream;
+import android.graphics.BitmapFactory;
+import java.io.IOException;
 
 
 public class UploadActivity extends ActionBarActivity {
@@ -17,10 +28,33 @@ public class UploadActivity extends ActionBarActivity {
 
     }
 
-    public void videoUpload(View view) {
+    public void uploadVideo(View view) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("video/*");
         startActivityForResult(photoPickerIntent, 100);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+
+        switch(requestCode) {
+            case 100:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    try{
+                        InputStream imageStream = getContentResolver().openInputStream(selectedImage);
+                        Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+
+                    } catch(IOException ioEx) {
+                        ioEx.printStackTrace();
+                    }
+
+
+                }
+
+        }
+
     }
 
 
