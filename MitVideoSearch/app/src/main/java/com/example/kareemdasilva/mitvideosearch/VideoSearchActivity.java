@@ -4,14 +4,34 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.VideoView;
+import android.net.Uri;
 
 
 public class VideoSearchActivity extends ActionBarActivity {
+
+    public static VideoView videoPlayer;
+
+    //Setup video player by creating controls/video source
+    public void videoSetup() {
+        videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
+        String uriPath = "android.resource://"+getPackageName()+"/raw/vacation";
+        Uri uri = Uri.parse(uriPath);
+        videoPlayer.setVideoURI(uri);
+    }
+    public void videoPlay(){
+        videoPlayer.start();
+    }
+    public void  videoPause(){
+        videoPlayer.pause();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_search);
+        videoSetup();
+        videoPlay();
     }
 
     @Override
