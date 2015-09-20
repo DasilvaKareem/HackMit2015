@@ -28,11 +28,14 @@ public class VideoSearchActivity extends ActionBarActivity {
     public MediaController control;
     private int position = 0;
     public ArrayAdapter adapter;
+    public Uri Path;
 
 
     //Setup video player by creating controls/video source
     public void videoSetup() {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
+        String data = getIntent().getExtras().getString("path");
+        Path = Uri.parse(getIntent().getExtras().getString("videoPath"));
 
         //Loads video to the video player
         if (control == null) {
@@ -43,9 +46,8 @@ public class VideoSearchActivity extends ActionBarActivity {
 
         videoPlayer.setMediaController(control);
 
-        String uriPath = "android.resource://"+getPackageName()+"/raw/vacation";
-        Uri uri = Uri.parse(uriPath);
-        videoPlayer.setVideoURI(uri);
+
+        videoPlayer.setVideoURI(Path);
         control = (MediaController) findViewById(R.id.controller);
 
 

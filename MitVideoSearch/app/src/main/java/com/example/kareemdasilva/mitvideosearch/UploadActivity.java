@@ -42,13 +42,9 @@ public class UploadActivity extends ActionBarActivity {
             case 100:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    try{
-                        InputStream imageStream = getContentResolver().openInputStream(selectedImage);
-                        Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-
-                    } catch(IOException ioEx) {
-                        ioEx.printStackTrace();
-                    }
+                    Intent intent = new Intent(UploadActivity.this, VideoSearchActivity.class);
+                    intent.putExtra("videoPath",selectedImage.toString());
+                    startActivity(intent);
 
 
                 }
