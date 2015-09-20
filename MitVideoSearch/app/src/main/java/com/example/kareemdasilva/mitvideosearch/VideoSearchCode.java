@@ -3,13 +3,11 @@ package com.example.kareemdasilva.mitvideosearch;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VideoSearchCode {
-    /*
-    Fast way to check whether string is an integer
-     */
     public static boolean isInteger(String str) {
         if (str == null) {
             return false;
@@ -36,9 +34,10 @@ public class VideoSearchCode {
     /*
     Main method parsing an srt file (Files with subtitle) and organizing into a list of list where the list are [begin, end, text1,text2]
      */
-    public static void main(String[] args){
+    public static List<String> parse(String filename){
         List<List<String>> records = new ArrayList<List<String>>();
         String filename = "/Users/mohamedkane/Documents/HackMit2015/video/src/video/test.srt";
+        Map<String, String> hash = new HashMap<String, String>();
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -65,12 +64,24 @@ public class VideoSearchCode {
                 }
                 if(records.size()==0){
                     records.add(rec);
+                    if(rec.size()==4){
+                        hash.put(rec.get(0), rec.get(2));
+                    }
                 }
                 else if (!records.get(records.size()-1).equals(rec)){
                     records.add(rec);
                 }
             }
-            System.out.println(records);
+            for (List<String> time : records){
+                if(time.size()==4){
+                    String one = time.get(2);
+                    String two = time.get(3);
+                    time.remove(3);
+                    time.remove(2);
+                    time.add(one+" "+two);
+                    hash.put(time.get(0), time.get(2));
+                }
+            }
             reader.close();
         }
         catch (Exception e)
