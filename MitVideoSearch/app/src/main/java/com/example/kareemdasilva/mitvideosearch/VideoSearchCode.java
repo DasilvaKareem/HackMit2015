@@ -59,11 +59,16 @@ public class VideoSearchCode {
                             rec.add(k[0]);
                             rec.add(k[1]);
                         }
-                    } else if(!isInteger(line)){
+                    }  else if(!isInteger(line)){
                         rec.add(line);
                     }
                 }
-                records.add(rec);
+                if(records.size()==0){
+                    records.add(rec);
+                }
+                else if (!records.get(records.size()-1).equals(rec)){
+                    records.add(rec);
+                }
             }
             System.out.println(records);
             reader.close();
@@ -74,5 +79,4 @@ public class VideoSearchCode {
             e.printStackTrace();
         }
     }
-
 }

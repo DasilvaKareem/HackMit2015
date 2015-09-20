@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="19836772-4102-40c6-89d6-819fecf8244e" name="Default" comment="" />
+    <list default="true" id="19836772-4102-40c6-89d6-819fecf8244e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MitVideoSearch/app/src/main/java/com/example/kareemdasilva/mitvideosearch/VideoSearchCode.java" afterPath="$PROJECT_DIR$/MitVideoSearch/app/src/main/java/com/example/kareemdasilva/mitvideosearch/VideoSearchCode.java" />
+    </list>
     <ignored path="HackMit2015.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -56,8 +58,8 @@
       <file leaf-file-name="VideoSearchCode.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MitVideoSearch/app/src/main/java/com/example/kareemdasilva/mitvideosearch/VideoSearchCode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8320493" vertical-offset="0" max-vertical-offset="1260">
-              <caret line="36" column="137" selection-start-line="36" selection-start-column="137" selection-end-line="36" selection-end-column="137" />
+            <state vertical-scroll-proportion="0.052388288" vertical-offset="671" max-vertical-offset="1320">
+              <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1087#1101#0" expanded="true" />
@@ -498,8 +500,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MitVideoSearch/app/src/main/java/com/example/kareemdasilva/mitvideosearch/VideoSearchCode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8320493" vertical-offset="0" max-vertical-offset="1260">
-          <caret line="36" column="137" selection-start-line="36" selection-start-column="137" selection-end-line="36" selection-end-column="137" />
+        <state vertical-scroll-proportion="0.052388288" vertical-offset="671" max-vertical-offset="1320">
+          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1087#1101#0" expanded="true" />
