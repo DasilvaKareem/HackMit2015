@@ -19,6 +19,13 @@ import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import java.util.List;
+import java.io.File;
+import com.clarifai.api.ClarifaiClient;
+import com.clarifai.api.ClarifaiRequest;
+import com.clarifai.api.RecognitionRequest;
+import com.clarifai.api.RecognitionResult;
+import android.nfc.Tag;
+import android.util.Log;
 
 
 public class VideoSearchActivity extends ActionBarActivity {
@@ -35,6 +42,21 @@ public class VideoSearchActivity extends ActionBarActivity {
     public void videoSetup() {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
         String data = getIntent().getExtras().getString("path");
+        ClarifaiClient clarifai = new ClarifaiClient("_xsiBzEiiTTX7tC7D6Gk_E3FeECZEvKdK-jHnHZu", "PNgDmvpiT3juRpf_NqTMKLmSF3ISmNZhKbFsWN8I");
+        List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(data));
+
+        for (Tag tag : results.get(0).getTags()) {
+            System.out.println(tag.getName() + ": " + tag.getProbability());
+        }
+
+//        Log.d(List);
+//        Log.
+//
+//        for (Tag tag : results.get(0).getTags()) {
+//            System.out.println(tag.getName() + ": " + tag.getProbability());
+//        }
+
+
         Path = Uri.parse(getIntent().getExtras().getString("videoPath"));
 
         //Loads video to the video player
@@ -139,4 +161,7 @@ public class VideoSearchActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
