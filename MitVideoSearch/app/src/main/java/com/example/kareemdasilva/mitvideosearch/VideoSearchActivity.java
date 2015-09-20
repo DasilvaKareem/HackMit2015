@@ -22,13 +22,17 @@ import com.clarifai.api.RecognitionRequest;
 import com.clarifai.api.RecognitionResult;
 import com.clarifai.api.Tag;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-//import android.nfc.Tag;
-
 
 
 
@@ -43,44 +47,28 @@ public class VideoSearchActivity extends ActionBarActivity {
 
 
     //Setup video player by creating controls/video source
-    public void videoSetup() {
+    public void videoSetup() throws IOException {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
-       //String data = getIntent().getExtras().getString("videoPath");
-//        path = Uri.parse(getIntent().getExtras().getString("videoPath"));
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        String data = "file:///android_res/raw/bike.jpg"; // "../res/raw/ad.mp4"
 
-//        getApplicationContext().
-//        InputStream inp = getAssets().open("ad.mp4");
-        getResources().openRawResource(R.raw.bike);
-//        URL resource = VideoSearchActivity.class.getResource("abc");
-//        Paths.get(resource.toURI()).toFile();
+        InputStream inputStream = getResources().openRawResource(R.raw.bike);
 
 
-        // /data/data/<application-package>/files/<file-name>
-//        String data = "android.resource://"+getPackageName()+"/raw/ad.mp4";
+        byte[] mp4Bytes =  getBytesFromInputStream(inputStream);
+
+        // read the captions file here
+
         ClarifaiClient clarifai = new ClarifaiClient("EHpEfFklAy0-SjUS9G3-oQPg_1vADZohy5zrOc3X","fgMdPQWWmrxj7wEr8OJNm2qdravwaMNaKWE4JRyb");
-        File f = new File(data);
-
-        RecognitionRequest r = new RecognitionRequest(f);
+        Log.d("test", "" + mp4Bytes.length);
+        RecognitionRequest r = new RecognitionRequest(mp4Bytes);
         List<RecognitionResult> results = clarifai.recognize(r);
-//        RecognitionRequest r = new RecognitionRequest("http://www.clarifai.com/img/metro-north.jpg");
-//        List<RecognitionResult> results = clarifai.recognize(r);
-
-
-    //  InfoResult info = clarifai.getInfo();
-      //  Toast.makeText(this, info.getMaxBatchSize(), Toast.LENGTH_LONG).show();
-//        Toast toast(info.getMaxBatchSize());
 
         for (Tag tag : results.get(0).getTags()) {
             Log.d("Clarifai", tag.getName() + ": " + tag.getProbability());
         }
-
-
-
 
 
         //Loads video to the video player
@@ -115,7 +103,20 @@ public class VideoSearchActivity extends ActionBarActivity {
         });
         setupTimeStamps();
     }
+    public static byte[] getBytesFromInputStream(InputStream is) throws IOException
+    {
 
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            byte[] buffer = new byte[0xFFFF];
+
+            for (int len; (len = is.read(buffer)) != -1;)
+                os.write(buffer, 0, len);
+
+            os.flush();
+
+            return os.toByteArray();
+
+    }
     public void setupTimeStamps(){
         timeStamps = (ListView) findViewById(R.id.timeMarks);
         String[] values = new String[] { "400", "12000", "40",
@@ -155,7 +156,11 @@ public class VideoSearchActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_search);
-        videoSetup();
+        try {
+            videoSetup();
+        } catch (IOException e) {
+            Log.e("on-create", "something went wrong", e);
+        }
         videoPlay(5000);
 
     }
