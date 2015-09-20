@@ -45,9 +45,6 @@ public class VideoSearchActivity extends ActionBarActivity {
         ClarifaiClient clarifai = new ClarifaiClient("_xsiBzEiiTTX7tC7D6Gk_E3FeECZEvKdK-jHnHZu", "PNgDmvpiT3juRpf_NqTMKLmSF3ISmNZhKbFsWN8I");
         List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(data));
 
-        for (Tag tag : results.get(0).getTags()) {
-            System.out.println(tag.getName() + ": " + tag.getProbability());
-        }
 
 //        Log.d(List);
 //        Log.
