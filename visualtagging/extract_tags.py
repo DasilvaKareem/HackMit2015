@@ -2,7 +2,6 @@ import cv2
 import os
 import json
 import pprint
-import ipdb
 import numpy as np
 import pickle
 from skvideo.io import VideoWriter
@@ -10,7 +9,7 @@ from clarifai.client import ClarifaiApi
 
 
 class Video_Tag_Extract():
-    def __init__(self, video_name='vacation.mp4'):
+    def __init__(self, video_name):
         self.working_root   = '..'
         self.videos_root    = '../training_videos'
         self.images_root    = '../training_images'
@@ -32,10 +31,17 @@ class Video_Tag_Extract():
 
         cap = cv2.VideoCapture(os.path.join(self.videos_root, self.video_name))
         num_frames = cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
-        width, height = 640, 360
+        fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
+        self.modulus = int(1.5*fps)
+        print self.modulus
+        width = cap.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)
+        height = cap.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)
+        print width
+        print height
+        # assert False 
 
         cur_frame = 0
-        while cur_frame < video_end:
+        while cur_frame < num_frames:
             print cur_frame
             has_frame, frame = cap.read()  # frame is (height, width, channels)
             if cur_frame in video_range:
@@ -43,8 +49,9 @@ class Video_Tag_Extract():
 
                 # write frame
                 if (cur_frame - video_start) % self.modulus == 0:
-                    img_filename = os.path.join(self.images_root, str(cur_frame) + 'job_id=' + str(job_id) + '.jpg')
+                    img_filename = os.path.join(self.images_root, self.video_name[:self.video_name.find('.mp4')] + '_' + str(cur_frame) + '_job_id=' + str(job_id) + '.jpg')
                     cv2.imwrite(img_filename, frame)
+                    print 'Written'
 
                 k = cv2.waitKey(30) & 0xff
                 if k == 27:
@@ -80,10 +87,10 @@ def write_video():
     working_root = '../'
     videos_root = os.path.join(working_root, 'training_videos')
     video_start = 0
-    video_end = 801
+    video_end = 2000
     video_range = range(video_start, video_end)
     ext = '.mp4'
-    input_video_name = 'vacation_0-801' + ext
+    input_video_name = 'ad' + ext
     output_video_name = input_video_name[:input_video_name.find(ext)] + '_' + str(video_start) + '-' + str(video_end) + '.mp4'
     # print output_video_name
     # assert False
@@ -91,6 +98,7 @@ def write_video():
     # set up reading video
     cap = cv2.VideoCapture(os.path.join(videos_root, input_video_name))
     num_frames = cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+    fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
     width, height = 640, 360
     cur_frame = 0
 
@@ -120,8 +128,8 @@ def write_video():
 
 
 if __name__ == '__main__':
-    api = ClarifaiApi()
-    a = Video_Tag_Extract()
-    # a.extract_images_from_video(video_start=700, video_end=700+api.get_info()['max_batch_size'], job_id=1)
-    a.analyze_images(job_id=1)
+    a = Video_Tag_Extract(video_name='ad.mp4')
+    a.extract_images_from_video(video_start=0, video_end=2000, job_id=1)
+    # a.analyze_images(job_id=1)
     # a.remove_images(video_start=700, video_end=700+self.api.get_info()['max_batch_size'], job_id=1)
+
