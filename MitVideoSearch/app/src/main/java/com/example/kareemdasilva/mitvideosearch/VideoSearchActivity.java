@@ -24,8 +24,9 @@ import com.clarifai.api.ClarifaiClient;
 import com.clarifai.api.ClarifaiRequest;
 import com.clarifai.api.RecognitionRequest;
 import com.clarifai.api.RecognitionResult;
-import android.nfc.Tag;
+//import android.nfc.Tag;
 import android.util.Log;
+import com.clarifai.api.Tag;
 
 
 public class VideoSearchActivity extends ActionBarActivity {
@@ -41,20 +42,16 @@ public class VideoSearchActivity extends ActionBarActivity {
     //Setup video player by creating controls/video source
     public void videoSetup() {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
-        String data = getIntent().getExtras().getString("path");
+//        String data = getIntent().getExtras().getString("path");
+        String data = "android.resource://"+getPackageName()+"/raw/bike.jpg";
         ClarifaiClient clarifai = new ClarifaiClient("_xsiBzEiiTTX7tC7D6Gk_E3FeECZEvKdK-jHnHZu", "PNgDmvpiT3juRpf_NqTMKLmSF3ISmNZhKbFsWN8I");
-        List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(data));
+//        List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(new File(data)));
+        RecognitionRequest r = new RecognitionRequest("http://www.clarifai.com/img/metro-north.jpg");
+        List<RecognitionResult> results = clarifai.recognize(r);
 
         for (Tag tag : results.get(0).getTags()) {
-            System.out.println(tag.getName() + ": " + tag.getProbability());
+            Log.d("Clarifai", tag.getName() + ": " + tag.getProbability());
         }
-
-//        Log.d(List);
-//        Log.
-//
-//        for (Tag tag : results.get(0).getTags()) {
-//            System.out.println(tag.getName() + ": " + tag.getProbability());
-//        }
 
 
         Path = Uri.parse(getIntent().getExtras().getString("videoPath"));
