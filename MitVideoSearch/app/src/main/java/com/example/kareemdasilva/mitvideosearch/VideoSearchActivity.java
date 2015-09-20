@@ -82,6 +82,7 @@ public class VideoSearchActivity extends ActionBarActivity {
 
 
 
+
         //Loads video to the video player
         if (control == null) {
 

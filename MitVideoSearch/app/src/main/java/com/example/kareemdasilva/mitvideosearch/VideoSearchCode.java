@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VideoSearchCode {
+    /*
+    Fast way to check whether string is an integer
+     */
     public static boolean isInteger(String str) {
         if (str == null) {
             return false;
@@ -30,6 +33,9 @@ public class VideoSearchCode {
         }
         return true;
     }
+    /*
+    Main method parsing an srt file (Files with subtitle) and organizing into a list of list where the list are [begin, end, text1,text2]
+     */
     public static void main(String[] args){
         List<List<String>> records = new ArrayList<List<String>>();
         String filename = "/Users/mohamedkane/Documents/HackMit2015/video/src/video/test.srt";
@@ -53,11 +59,16 @@ public class VideoSearchCode {
                             rec.add(k[0]);
                             rec.add(k[1]);
                         }
-                    } else if(!isInteger(line)){
+                    }  else if(!isInteger(line)){
                         rec.add(line);
                     }
                 }
-                records.add(rec);
+                if(records.size()==0){
+                    records.add(rec);
+                }
+                else if (!records.get(records.size()-1).equals(rec)){
+                    records.add(rec);
+                }
             }
             System.out.println(records);
             reader.close();
@@ -68,5 +79,4 @@ public class VideoSearchCode {
             e.printStackTrace();
         }
     }
-
 }
