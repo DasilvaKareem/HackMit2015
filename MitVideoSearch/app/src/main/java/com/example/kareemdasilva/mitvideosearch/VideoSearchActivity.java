@@ -1,32 +1,35 @@
 package com.example.kareemdasilva.mitvideosearch;
 
-import android.support.v7.app.ActionBarActivity;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.MediaController;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.widget.VideoView;
-import android.net.Uri;
-import android.media.*;
-import java.util.ArrayList;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import java.util.List;
-import java.io.File;
+import android.widget.VideoView;
+
 import com.clarifai.api.ClarifaiClient;
-import com.clarifai.api.ClarifaiRequest;
 import com.clarifai.api.RecognitionRequest;
 import com.clarifai.api.RecognitionResult;
-//import android.nfc.Tag;
-import android.util.Log;
 import com.clarifai.api.Tag;
+
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+//import android.nfc.Tag;
+
+
 
 
 public class VideoSearchActivity extends ActionBarActivity {
@@ -36,25 +39,48 @@ public class VideoSearchActivity extends ActionBarActivity {
     public MediaController control;
     private int position = 0;
     public ArrayAdapter adapter;
-    public Uri Path;
+    public Uri path;
 
 
     //Setup video player by creating controls/video source
     public void videoSetup() {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
-//        String data = getIntent().getExtras().getString("path");
-        String data = "android.resource://"+getPackageName()+"/raw/bike.jpg";
-        ClarifaiClient clarifai = new ClarifaiClient("_xsiBzEiiTTX7tC7D6Gk_E3FeECZEvKdK-jHnHZu", "PNgDmvpiT3juRpf_NqTMKLmSF3ISmNZhKbFsWN8I");
-//        List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(new File(data)));
-        RecognitionRequest r = new RecognitionRequest("http://www.clarifai.com/img/metro-north.jpg");
+       //String data = getIntent().getExtras().getString("videoPath");
+//        path = Uri.parse(getIntent().getExtras().getString("videoPath"));
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        String data = "file:///android_res/raw/bike.jpg"; // "../res/raw/ad.mp4"
+
+//        getApplicationContext().
+//        InputStream inp = getAssets().open("ad.mp4");
+        getResources().openRawResource(R.raw.bike);
+//        URL resource = VideoSearchActivity.class.getResource("abc");
+//        Paths.get(resource.toURI()).toFile();
+
+
+        // /data/data/<application-package>/files/<file-name>
+//        String data = "android.resource://"+getPackageName()+"/raw/ad.mp4";
+        ClarifaiClient clarifai = new ClarifaiClient("EHpEfFklAy0-SjUS9G3-oQPg_1vADZohy5zrOc3X","fgMdPQWWmrxj7wEr8OJNm2qdravwaMNaKWE4JRyb");
+        File f = new File(data);
+
+        RecognitionRequest r = new RecognitionRequest(f);
         List<RecognitionResult> results = clarifai.recognize(r);
+//        RecognitionRequest r = new RecognitionRequest("http://www.clarifai.com/img/metro-north.jpg");
+//        List<RecognitionResult> results = clarifai.recognize(r);
+
+
+    //  InfoResult info = clarifai.getInfo();
+      //  Toast.makeText(this, info.getMaxBatchSize(), Toast.LENGTH_LONG).show();
+//        Toast toast(info.getMaxBatchSize());
 
         for (Tag tag : results.get(0).getTags()) {
             Log.d("Clarifai", tag.getName() + ": " + tag.getProbability());
         }
 
 
-        Path = Uri.parse(getIntent().getExtras().getString("videoPath"));
+
 
         //Loads video to the video player
         if (control == null) {
@@ -66,7 +92,7 @@ public class VideoSearchActivity extends ActionBarActivity {
         videoPlayer.setMediaController(control);
 
 
-        videoPlayer.setVideoURI(Path);
+//        videoPlayer.setVideoURI(Path);
         control = (MediaController) findViewById(R.id.controller);
 
 
