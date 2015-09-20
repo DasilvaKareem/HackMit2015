@@ -17,48 +17,48 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.ClipData.Item;
 import android.widget.ArrayAdapter;
+import java.lang.String;
 import java.util.List;
-public class Selector_Adapter extends ArrayAdapter<Item> {
-
+public class Selector_Adapter extends ArrayAdapter<String> {
+    public ArrayList values;
     public Selector_Adapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public Selector_Adapter(Context context, int resource, List<Item> items) {
+    public Selector_Adapter(Context context, int resource, ArrayList<String> items) {
         super(context, resource, items);
+        values = items;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-
+       ;
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.time_stamp, null);
         }
 
-        Item p = getItem(position);
 
-        if (p != null) {
+
+
             TextView timer = (TextView) v.findViewById(R.id.TimeStamp);
             //Button goToTime = (Button) v.findViewById(R.id.goToTime);
             //timer.setText(timer.get(VideoSearchActivity.videoPlayer));
 
             if (timer != null) {
-                //timer.setText(p.getText());
+                timer.setText(values.get(position).toString());
 
             }
 
             /*if (goToTime != null) {
                 goToTime.setText(p.getText());
             }*/
-
+        return v;
         }
 
-        return v;
-    }
     }
 
 

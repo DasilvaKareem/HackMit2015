@@ -161,132 +161,13 @@ public class VideoSearchActivity extends ActionBarActivity {
         String[] values = new String[] { "400", "12000", "40",
                 "66666", "10000", "12000", "80000", "34000",
                  };
-        List kareemd;
-        kareemd = new List() {
-            @Override
-            public void add(int location, Object object) {
 
-            }
-
-            @Override
-            public boolean add(Object object) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int location, Collection collection) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(Collection collection) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public boolean contains(Object object) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(Collection collection) {
-                return false;
-            }
-
-            @Override
-            public Object get(int location) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(Object object) {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator iterator() {
-                return null;
-            }
-
-            @Override
-            public int lastIndexOf(Object object) {
-                return 0;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator listIterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator listIterator(int location) {
-                return null;
-            }
-
-            @Override
-            public Object remove(int location) {
-                return null;
-            }
-
-            @Override
-            public boolean remove(Object object) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(Collection collection) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(Collection collection) {
-                return false;
-            }
-
-            @Override
-            public Object set(int location, Object object) {
-                return null;
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @NonNull
-            @Override
-            public List subList(int start, int end) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-
-
-        };
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
         }
          Selector_Adapter adapter = new Selector_Adapter(this,
-                R.layout.time_stamp,kareemd);
+                R.layout.time_stamp,list);
         timeStamps.setAdapter(adapter);
         /*timeStamps.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

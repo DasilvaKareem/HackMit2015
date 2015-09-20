@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3f2860"
     android:weightSum="1">
 
     <TextView
@@ -9,14 +10,18 @@
         android:layout_height="wrap_content"
         android:text="TimeStamp"
         android:textSize="15pt"
+        android:textColor="#90c5a9"
         android:id="@+id/TimeStamp"
         android:layout_weight="0.04" />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="goToTime"
-        android:id="@+id/goToTime"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:textSize="15pt"
+        android:textColor="#ff7373"
+        android:id="@+id/textView4"
         android:layout_weight="0.04" />
 
 </LinearLayout>
