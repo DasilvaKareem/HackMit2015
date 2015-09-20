@@ -1,0 +1,377 @@
+1
+00:00:00,049 --> 00:00:03,080
+what the heck is going on everybody
+welcome
+
+2
+00:00:03,008 --> 00:00:06,012
+your very first to ruin I O S the
+bellman
+
+3
+00:00:06,012 --> 00:00:10,048
+with swift now in this is world series
+well I'm going to do
+
+4
+00:00:10,048 --> 00:00:13,100
+is I'm gonna show you guys had a great
+are some I West aP's
+
+5
+00:00:14,000 --> 00:00:17,025
+and that includes the iPad the iPod
+Touch
+
+6
+00:00:17,025 --> 00:00:20,093
+the iPhone any actually you wanna make
+well
+
+7
+00:00:20,093 --> 00:00:23,702
+you are not because this is the greatest
+World Series
+
+8
+00:00:24,539 --> 00:00:29,380
+ever created noun before you started I
+want to mention a couple things
+
+9
+00:00:29,038 --> 00:00:33,102
+for small what is swept I never heard in
+this thing called swift before
+
+10
+00:00:34,002 --> 00:00:37,071
+going to mail your computer programming
+model a know what the heck's going on
+
+11
+00:00:37,071 --> 00:00:37,118
+there
+
+12
+00:00:38,018 --> 00:00:42,018
+well whenever Apple first allow
+developers make
+
+13
+00:00:42,018 --> 00:00:46,019
+arm like I was axed for the iPhone or
+whatever they used a programming
+
+14
+00:00:46,019 --> 00:00:47,868
+language called objective-c
+
+15
+00:00:48,039 --> 00:00:51,134
+but now just a few months ago they came
+out with the brand new language coats
+
+16
+00:00:51,989 --> 00:00:52,048
+with
+
+17
+00:00:52,579 --> 00:00:55,602
+and it's pretty much the future %uh I
+was the bellman
+
+18
+00:00:55,809 --> 00:00:59,780
+so before we get into you know adding
+all the buns and stuff on your haps
+
+19
+00:00:59,078 --> 00:01:02,096
+I'm gonna teach you guys this computer
+programming language
+
+20
+00:01:02,096 --> 00:01:06,171
+and then once we learn basis abet we can
+move on to making cool like iPad app for
+
+21
+00:01:07,071 --> 00:01:08,135
+iPhone app's what everyone knew
+
+22
+00:01:09,035 --> 00:01:12,038
+so now that is underway
+
+23
+00:01:12,065 --> 00:01:15,065
+let's go ahead and get started I don't
+want to be as you know like a huge a
+
+24
+00:01:15,065 --> 00:01:17,324
+long intro about the history of it but
+
+25
+00:01:17,909 --> 00:01:21,950
+you notice a little quick info so the
+first thing you need to do when everyone
+
+26
+00:01:21,095 --> 00:01:22,184
+create Iowa sabes is
+
+27
+00:01:23,084 --> 00:01:27,086
+you need an Apple ID and if you go to
+this website right here
+
+28
+00:01:27,086 --> 00:01:30,129
+developer dot Apple dot com you probably
+already have one
+
+29
+00:01:31,029 --> 00:01:34,068
+if you're working with Matt this is
+where you can pretty much
+
+30
+00:01:34,068 --> 00:01:38,103
+arm set up all your accounts of so the
+first thing you need is an Apple ID
+
+31
+00:01:39,003 --> 00:01:44,009
+so if you click this pine in Apple ID is
+pretty much just so
+
+32
+00:01:44,009 --> 00:01:47,398
+I don't know like any arm like Google
+
+33
+00:01:47,479 --> 00:01:50,497
+has you make an account ya whom it has
+you make an account
+
+34
+00:01:50,659 --> 00:01:54,683
+well this is like Apple's account for
+their main on overall everything
+
+35
+00:01:54,899 --> 00:01:59,750
+so of course you just fill in your first
+name are your email password typical
+
+36
+00:01:59,075 --> 00:02:00,084
+stuff right here
+
+37
+00:02:00,084 --> 00:02:04,127
+I actually already have an Apple ID and
+like I said I'm guessing you do too
+
+38
+00:02:05,027 --> 00:02:08,075
+absence text me ray in the middle my
+store /url
+
+39
+00:02:08,075 --> 00:02:09,127
+much worse go ahead and
+
+40
+00:02:10,027 --> 00:02:15,031
+read it word is this a is my moon
+
+41
+00:02:15,031 --> 00:02:20,054
+noon she says dinner at her house
+tonight they're having meatballs
+
+42
+00:02:20,054 --> 00:02:24,153
+so looks like I'll be eating me post
+money cool cool are
+
+43
+00:02:25,053 --> 00:02:28,096
+so now they have an Apple ID again I
+didn't want to talk you through that
+
+44
+00:02:28,096 --> 00:02:30,153
+because like typing your name type in
+your last name
+
+45
+00:02:31,053 --> 00:02:35,101
+movie you know you guys keep hearing
+that out but now what we need to do
+
+46
+00:02:36,001 --> 00:02:41,030
+is we need to create a developer account
+now whenever we have a developer account
+
+47
+00:02:41,003 --> 00:02:44,040
+what we can do this is we can download
+all the cool tools
+
+48
+00:02:44,067 --> 00:02:47,128
+like Xcode and Xcode is pretty
+
+49
+00:02:48,028 --> 00:02:51,066
+it's just like a really fancy text
+editor that you can use to rate your
+
+50
+00:02:51,066 --> 00:02:51,118
+code
+
+51
+00:02:52,018 --> 00:02:55,049
+and there's also like the IRS SDK that
+we need
+
+52
+00:02:55,049 --> 00:02:58,131
+in this is pretty much arm in the
+
+53
+00:02:59,031 --> 00:03:02,129
+software development kit specific to I
+was absolutely awful stuff
+
+54
+00:03:03,029 --> 00:03:07,084
+Taylor to developing like iPhone and
+iPad app so those are two things that we
+
+55
+00:03:07,084 --> 00:03:07,152
+need to get
+
+56
+00:03:08,052 --> 00:03:11,057
+so let's go ahead and sign in now if you
+had to do that
+
+57
+00:03:11,057 --> 00:03:14,113
+so sign in almost lost their developer
+
+58
+00:03:15,013 --> 00:03:18,098
+Kunis sign in okay
+
+59
+00:03:18,098 --> 00:03:21,106
+lonely it but i wanna be come are
+
+60
+00:03:22,006 --> 00:03:26,015
+Apple Developer the NRA so
+
+61
+00:03:26,015 --> 00:03:30,066
+definitely read all that I know it look
+like I was a remember trust me as I am
+
+62
+00:03:30,066 --> 00:03:34,072
+original speed reading 11 are so just
+agree to this
+
+63
+00:03:35,026 --> 00:03:38,031
+in OK are your first question what role
+
+64
+00:03:38,031 --> 00:03:41,084
+best describes you probably aren't like
+incredibly good-looking deny
+
+65
+00:03:41,084 --> 00:03:45,098
+no don't know that one so to say that I
+am A R
+
+66
+00:03:45,098 --> 00:03:50,156
+suffer engineer when he started building
+for Apple platforms will say
+
+67
+00:03:51,056 --> 00:03:55,059
+pick whatever we want now what are you
+developing
+
+68
+00:03:55,059 --> 00:03:58,086
+I'm only been shown you guys had to
+develop Iowa saps
+
+69
+00:03:58,086 --> 00:04:01,090
+anything for mobile handheld devices
+
+70
+00:04:01,009 --> 00:04:05,014
+so I'm just going to click abstrait
+there we can also do with this
+
+71
+00:04:06,004 --> 00:04:09,019
+these tools is you can just develop like
+regular software
+
+72
+00:04:09,055 --> 00:04:13,072
+for the Mac like I don't know I programs
+like Skype in
+
+73
+00:04:13,072 --> 00:04:16,150
+you know like photo editors whatever you
+want so if you wanna
+
+74
+00:04:17,005 --> 00:04:20,064
+do any that then you can follow whatever
+but again this is for a series is just
+
+75
+00:04:21,009 --> 00:04:21,067
+for
+
+76
+00:04:21,067 --> 00:04:24,104
+iPhone in Iowa saps so okay
+
+77
+00:04:25,004 --> 00:04:28,046
+were other platforms to develop forward
+Android
+
+78
+00:04:28,046 --> 00:04:32,065
+in a a merchant when those two little
+bit driver
+
+79
+00:04:32,065 --> 00:04:36,114
+on the side re: now register think
+courageous there you are now
+
+80
+00:04:37,014 --> 00:04:42,079
+able to sign in to the website so hit
+continue and check this out
+
