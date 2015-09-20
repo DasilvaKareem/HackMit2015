@@ -5,6 +5,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,27 +13,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import com.clarifai.api.ClarifaiClient;
 import com.clarifai.api.RecognitionRequest;
 import com.clarifai.api.RecognitionResult;
 import com.clarifai.api.Tag;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
+import android.provider.MediaStore.Files;
+
+//import android.nfc.Tag;
+
 
 
 
@@ -47,28 +58,69 @@ public class VideoSearchActivity extends ActionBarActivity {
 
 
     //Setup video player by creating controls/video source
-    public void videoSetup() throws IOException {
+    public void videoSetup() {
         videoPlayer = (VideoView) findViewById(R.id.videoPlayer);
+       //String data = getIntent().getExtras().getString("videoPath");
+       path = Uri.parse(getIntent().getExtras().getString("videoPath"));
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+        String data = "http://download.wavetlan.com/SVV/Media/HTTP/H264/Talkinghead_Media/H264_test2_Talkinghead_mp4_480x320.mp4"; // "../res/raw/ad.mp4"
 
-        InputStream inputStream = getResources().openRawResource(R.raw.bike);
+//        getApplicationContext().
+//        InputStream inp = getAssets().open("ad.mp4");
+
+//        URL resource = VideoSearchActivity.class.getResource("abc");
+//        Paths.get(resource.toURI()).toFile();
 
 
-        byte[] mp4Bytes =  getBytesFromInputStream(inputStream);
-
-        // read the captions file here
-
+        // /data/data/<application-package>/files/<file-name>
+//        String data = "android.resource://"+getPackageName()+"/raw/ad.mp4";
         ClarifaiClient clarifai = new ClarifaiClient("EHpEfFklAy0-SjUS9G3-oQPg_1vADZohy5zrOc3X","fgMdPQWWmrxj7wEr8OJNm2qdravwaMNaKWE4JRyb");
-        Log.d("test", "" + mp4Bytes.length);
-        RecognitionRequest r = new RecognitionRequest(mp4Bytes);
-        List<RecognitionResult> results = clarifai.recognize(r);
+        //File f = new File(path.getPath());
 
-        for (Tag tag : results.get(0).getTags()) {
-            Log.d("Clarifai", tag.getName() + ": " + tag.getProbability());
+        InputStream initialStream = null;
+
+
+        try {
+            initialStream = new FileInputStream(path.getPath());
+            byte[] buffer = new byte[0];
+            buffer = new byte[initialStream.available()];
+            initialStream.read(buffer);
+            File targetFile = new File("src/main/resources/targetFile.tmp");
+            File f = targetFile;
+            RecognitionRequest r = new RecognitionRequest(f);
+            List<RecognitionResult> results = clarifai.recognize(r);
+            for (Tag tag : results.get(0).getTags()) {
+                Log.d("Clarifai", tag.getName() + ": " + tag.getProbability());
+            }
+            //.write(buffer, targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("fail","fail");
         }
+
+
+
+
+
+
+
+
+
+//        RecognitionRequest r = new RecognitionRequest("http://www.clarifai.com/img/metro-north.jpg");
+//        List<RecognitionResult> results = clarifai.recognize(r);
+
+
+    //  InfoResult info = clarifai.getInfo();
+      //  Toast.makeText(this, info.getMaxBatchSize(), Toast.LENGTH_LONG).show();
+//        Toast toast(info.getMaxBatchSize());
+
+
+
+
+
 
 
         //Loads video to the video player
@@ -103,34 +155,21 @@ public class VideoSearchActivity extends ActionBarActivity {
         });
         setupTimeStamps();
     }
-    public static byte[] getBytesFromInputStream(InputStream is) throws IOException
-    {
 
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            byte[] buffer = new byte[0xFFFF];
-
-            for (int len; (len = is.read(buffer)) != -1;)
-                os.write(buffer, 0, len);
-
-            os.flush();
-
-            return os.toByteArray();
-
-    }
     public void setupTimeStamps(){
         timeStamps = (ListView) findViewById(R.id.timeMarks);
         String[] values = new String[] { "400", "12000", "40",
                 "66666", "10000", "12000", "80000", "34000",
                  };
 
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
         }
-         ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
+         Selector_Adapter adapter = new Selector_Adapter(this,
+                R.layout.time_stamp,list);
         timeStamps.setAdapter(adapter);
-        timeStamps.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*timeStamps.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
@@ -141,7 +180,7 @@ public class VideoSearchActivity extends ActionBarActivity {
 
             }
 
-        });
+        });*/
     }
 
     public void videoPlay(int timeStamp){
@@ -156,12 +195,9 @@ public class VideoSearchActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_search);
-        try {
-            videoSetup();
-        } catch (IOException e) {
-            Log.e("on-create", "something went wrong", e);
-        }
-        videoPlay(5000);
+        //videoSetup();
+        //videoPlay(5000);
+        setupTimeStamps();
 
     }
 
